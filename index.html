@@ -162,6 +162,8 @@ body {
   font-weight: bold;
   border-radius: 6px;
   cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
 }
 .ctrl-btn:disabled { background: #94a3b8; }
 
@@ -389,7 +391,7 @@ function renderResources(resources) {
         <strong>${res.title}</strong><br/>
         <small>${res.description || ''}</small>
       </div>
-      <a href="${res.file}" class="ctrl-btn">Open Resource</a>
+      <a href="${res.file}" target="_blank" rel="noopener noreferrer" class="ctrl-btn">Open Resource</a>
     `;
     container.appendChild(card);
   });
@@ -463,7 +465,11 @@ window.addEventListener('DOMContentLoaded', () => {
       {"title": "6. Hands-On Archetype Mapping Workshop", "standard": "MN 8.1.3.3", "bullets": ["Step 1: Open your Character Archetypes Mapping Organizer.", "Step 2: Select three characters from our class text or your independent reading book.", "Step 3: Label each character's primary archetype and cite two supporting pieces of textual evidence.", "Step 4: Draft a thesis statement explaining how these archetypes interact to drive the main plot conflict."], "callout": "Workshop Goal: Prove archetype labels using specific character actions, dialogue, and narrative consequences.", "icon": "📝", "visual_caption": "Evidence Collection & Analysis Workflow"}
     ],
     "resources": [
-      {"title": "Character Archetypes Mapping Organizer", "description": "Comprehensive, self-made reference sheet detailing common character archetypes, traits, and examples.", "file": "Eng8_Character_Archetypes_Guide.pdf"}
+      {
+        "title": "Character Archetypes Mapping Organizer",
+        "description": "Comprehensive reference sheet detailing common character archetypes, traits, and examples.",
+        "file": "Eng8_Character_Archetypes_Guide.pdf"
+      }
     ],
     "form": [
       {"label": "Student Name", "type": "short_text", "required": true},
