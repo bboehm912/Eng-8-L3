@@ -207,6 +207,65 @@ input, textarea, select {
 .tab-content { display: none; }
 .tab-content.active { display: block; }
 
+.modal-overlay {
+  display: none;
+  position: fixed;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(15, 23, 42, 0.6);
+  z-index: 1000;
+  justify-content: center;
+  align-items: center;
+}
+.modal-overlay.active { display: flex; }
+
+.modal-card {
+  background: #ffffff;
+  border-radius: 12px;
+  max-width: 750px;
+  width: 90%;
+  max-height: 85vh;
+  overflow-y: auto;
+  padding: 24px;
+  position: relative;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid var(--primary);
+  padding-bottom: 12px;
+  margin-bottom: 16px;
+}
+
+.close-btn {
+  background: #e2e8f0;
+  color: #0f172a;
+  border: none;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.archetype-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 12px;
+}
+.archetype-table th, .archetype-table td {
+  border: 1px solid var(--border);
+  padding: 10px;
+  text-align: left;
+  font-size: 0.9em;
+}
+.archetype-table th {
+  background: var(--primary-light);
+  color: var(--primary-dark);
+}
+
 .muted { color: var(--text-muted); }
 .italic { font-style: italic; }
 .subtitle { color: var(--text-muted); }
@@ -287,12 +346,24 @@ input, textarea, select {
 
 </div>
 
+<!-- EMBEDDED RESOURCE VIEWER MODAL -->
+<div id="resource-modal" class="modal-overlay">
+  <div class="modal-card">
+    <div class="modal-header">
+      <h3 id="modal-title">Resource Reference Viewer</h3>
+      <button class="close-btn" onclick="closeModal()">✕</button>
+    </div>
+    <div id="modal-body">
+      <!-- Embedded Document Content injected dynamically -->
+    </div>
+  </div>
+</div>
+
 <script>
 let currentSlide = 1;
 let totalSlides = 1;
 let bellringers = [];
 
-// Stock image pool for default visual slides
 const stockImagePool = [
   'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&w=300&q=80',
   'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=300&q=80',
@@ -302,8 +373,57 @@ const stockImagePool = [
   'https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&w=300&q=80'
 ];
 
-// Emoji fallback pool
 const iconPool = ['🎭', '🛡️', '🦉', '🃏', '🔍', '📝'];
+
+const builtInDocumentContent = `
+  <p class="muted"><strong>English 8 Reference Guide:</strong> Universal Character Blueprints & Narrative Roles</p>
+  <table class="archetype-table">
+    <thead>
+      <tr>
+        <th>Archetype</th>
+        <th>Core Motivation</th>
+        <th>Key Characteristics</th>
+        <th>Classic Examples</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>The Hero</strong></td>
+        <td>To overcome evil and protect the community.</td>
+        <td>Brave, flawed, grows through trials and sacrifice.</td>
+        <td>Katniss Everdeen, Harry Potter</td>
+      </tr>
+      <tr>
+        <td><strong>The Mentor</strong></td>
+        <td>To train, guide, and equip the protagonist.</td>
+        <td>Wise, experienced, gives essential tools or knowledge.</td>
+        <td>Haymitch, Dumbledore, Yoda</td>
+      </tr>
+      <tr>
+        <td><strong>The Shadow</strong></td>
+        <td>To defeat the hero and fulfill selfish desires.</td>
+        <td>Opposing force, powerful, reflects hero's inner flaw.</td>
+        <td>President Snow, Voldemort</td>
+      </tr>
+      <tr>
+        <td><strong>The Caregiver</strong></td>
+        <td>To protect and support loved ones from harm.</td>
+        <td>Selfless, loyal, compassionate, nurturing.</td>
+        <td>Samwise Gamgee, Peeta Mellark</td>
+      </tr>
+      <tr>
+        <td><strong>The Trickster</strong></td>
+        <td>To challenge authority and inject humor or chaos.</td>
+        <td>Unpredictable, funny, breaks conventional rules.</td>
+        <td>Fred & George Weasley, Loki</td>
+      </tr>
+    </tbody>
+  </table>
+  <br/>
+  <div class="callout-box">
+    <strong>Analyzing Archetypes in Literature:</strong> Remember that complex characters often combine elements of multiple archetypes or shift roles as they progress along their story arc.
+  </div>
+`;
 
 function renderSlides(slides) {
   const stage = document.getElementById('slide-stage');
@@ -391,10 +511,24 @@ function renderResources(resources) {
         <strong>${res.title}</strong><br/>
         <small>${res.description || ''}</small>
       </div>
-      <a href="${res.file}" target="_blank" rel="noopener noreferrer" class="ctrl-btn">Open Resource</a>
+      <button onclick="openResource('${res.file}', '${res.title}')" class="ctrl-btn">Open Resource</button>
     `;
     container.appendChild(card);
   });
+}
+
+function openResource(file, title) {
+  if (file.startsWith('http://') || file.startsWith('https://')) {
+    window.open(file, '_blank');
+  } else {
+    document.getElementById('modal-title').innerText = title;
+    document.getElementById('modal-body').innerHTML = builtInDocumentContent;
+    document.getElementById('resource-modal').classList.add('active');
+  }
+}
+
+function closeModal() {
+  document.getElementById('resource-modal').classList.remove('active');
 }
 
 function renderForm(fields) {
