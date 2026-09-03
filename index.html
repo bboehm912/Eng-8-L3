@@ -208,7 +208,6 @@ input, textarea, select {
 .muted { color: var(--text-muted); }
 .italic { font-style: italic; }
 .subtitle { color: var(--text-muted); }
-
 </style>
 </head>
 <body>
@@ -253,11 +252,11 @@ input, textarea, select {
 
     <div class="deck-header">
       <h3>Unit 1: Narrative Structure & Character Patterns</h3>
-      <span id="slide-tracker" class="std-badge">Slide 1 of {{total_slides}}</span>
+      <span id="slide-tracker" class="std-badge">Slide 1 of 1</span>
     </div>
 
     <div id="slide-stage" class="slide-stage">
-      <!-- Slides will be injected by script.js using JSON -->
+      <!-- Slides injected dynamically -->
     </div>
 
     <div class="deck-controls">
@@ -271,7 +270,7 @@ input, textarea, select {
     <h3>Lesson Resource & Reference Hub</h3>
     <p class="muted">Access official course references below.</p>
     <div id="resource-list">
-      <!-- Resources injected by script.js -->
+      <!-- Resources injected dynamically -->
     </div>
   </div>
 
@@ -279,7 +278,7 @@ input, textarea, select {
   <div id="form-tab" class="card tab-content">
     <h3>Student Work Checkpoint & Reflection</h3>
     <form id="checkpoint-form">
-      <!-- Dynamic form fields injected by script.js -->
+      <!-- Form fields injected dynamically -->
       <button type="submit" class="submit-btn">Submit Reflection</button>
     </form>
   </div>
@@ -293,16 +292,16 @@ let bellringers = [];
 
 // Stock image pool for default visual slides
 const stockImagePool = [
-  'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&w=300&q=80', // Turtle / Nature
-  'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=300&q=80', // Water / Earth-Diver
-  'https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=300&q=80', // Ecology / Forest
-  'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=300&q=80', // Campfire / Orality
-  'https://images.unsplash.com/photo-1457369804613-52c61a468e7d?auto=format&fit=crop&w=300&q=80', // Literature / History
-  'https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&w=300&q=80'  // Writing Workshop
+  'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&w=300&q=80',
+  'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=300&q=80',
+  'https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=300&q=80',
+  'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=300&q=80',
+  'https://images.unsplash.com/photo-1457369804613-52c61a468e7d?auto=format&fit=crop&w=300&q=80',
+  'https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&w=300&q=80'
 ];
 
 // Emoji fallback pool
-const iconPool = ['🐢', '🌊', '🌱', '🗣️', '☯️', '📝'];
+const iconPool = ['🎭', '🛡️', '🦉', '🃏', '🔍', '📝'];
 
 function renderSlides(slides) {
   const stage = document.getElementById('slide-stage');
@@ -313,9 +312,7 @@ function renderSlides(slides) {
     wrapper.className = 'slide' + (index === 0 ? ' active' : '');
     wrapper.id = `slide-${index + 1}`;
 
-    // Priority 1: slide.image OR Stock Web Image
     const imageUrl = slide.image || stockImagePool[index % stockImagePool.length];
-    // Fallback: slide.icon OR Emoji Pool
     const fallbackEmoji = slide.icon || iconPool[index % iconPool.length];
 
     const visualMediaHTML = `
@@ -347,6 +344,7 @@ function renderSlides(slides) {
     stage.appendChild(wrapper);
   });
 }
+
 function initLesson(data) {
   bellringers = data.bellringers || [];
   totalSlides = (data.slides || []).length || 1;
@@ -444,35 +442,38 @@ function switchTab(key) {
     document.getElementById('form-tab').classList.add('active');
   }
 }
-window.addEventListener('DOMContentLoaded', () => initLesson({"course_title": "English 8", "unit_title": "Unit 1: Narrative Structure & Character Patterns", "day_title": "Day 3: Character Archetypes Explored", "bellringers": ["Think of your favorite movie or book. What role does the main character's guide or closest friend play? How are they similar to guides in other stories?", "Compare Katniss Everdeen, Harry Potter, and Percy Jackson. What common traits, motivations, or challenges do these main characters share?", "Define 'archetype' in your own words. Why do authors across different cultures and eras reuse similar character patterns?", "Ethics & Characterization Check: Can a character fit a classic archetype while still feeling unique and complex, or do archetypes make characters predictable?"], "slides": [{"title": "1. Lesson Overview & Universal Patterns", "standard": "MN 8.1.3.3", "bullets": ["Primary Focus: Noticing similarities between characters across many stories, eras, and cultures.", "Core Objective: Identify, label, and analyze different types of character archetypes in literature.", "Target Skill: Categorizing characters based on their core motivations, choices, and narrative roles.", "Textual Application: Connecting universal archetypes to our class anchor text and media examples."], "callout": "Key Concept: Archetypes are universal blueprints—recurring character types that readers instantly recognize across different stories.", "icon": "🎭", "visual_caption": "Universal Character Archetypes Framework"}, {"title": "2. Heroic & Protective Archetypes", "standard": "MN 8.1.6.6", "bullets": ["The Hero / Protagonist: Called to adventure, faces trials, and makes sacrifices for the greater good.", "The Caregiver / Protector: Driven by compassion and loyalty to nurture and protect others from harm.", "The Everyday Hero: An ordinary person thrust into extraordinary circumstances who rises to the challenge.", "Motivating Force: These archetypes drive the core moral direction and central conflict of the plot."], "callout": "Heroic Focus: A hero is not defined by perfection, but by their willingness to overcome flaws to do what is right.", "icon": "🛡️", "visual_caption": "Heroic & Protective Character Blueprint"}, {"title": "3. Guidance & Support Archetypes", "standard": "MN 8.1.3.3", "bullets": ["The Mentor: The wise teacher or guide who provides essential tools, training, or advice (e.g., Haymitch, Dumbledore).", "The Loyal Sidekick: The steadfast companion who offers support, contrast, and moral grounding.", "The Herald: The character or force that delivers the message signaling the start of the hero's journey.", "Narrative Function: Support archetypes challenge and prepare the protagonist to face obstacles."], "callout": "Guidance Rule: A true mentor never fights the battle for the hero—they give the hero what they need to face it themselves.", "icon": "🦉", "visual_caption": "Support & Guidance Network Diagram"}, {"title": "4. Opposition & Disruption Archetypes", "standard": "MN 8.1.3.3", "bullets": ["The Shadow / Villain: The primary opposing force representing the hero's main obstacle or darker potential.", "The Trickster: Bends rules, provides humor, and creates chaos to challenge the status quo.", "The Threshold Guardian: Tests the hero's courage and resolve before they enter a new world or challenge.", "Conflict Generation: Opposing archetypes reveal the hero's true character under pressure."], "callout": "Conflict Driver: A powerful Shadow reflects the hero's greatest internal fear or insecurity.", "icon": "🃏", "visual_caption": "Opposition & Dynamic Conflict Roles"}, {"title": "5. Analyzing Archetypes vs. Stereotypes", "standard": "MN 8.1.6.6", "bullets": ["Remember, different cultures bring different archetypes.", "Archetype vs. Stereotype: Archetypes are rich structural foundations; stereotypes are oversimplified cliches.", "Blended Archetypes: Complex characters often shift or combine multiple archetypes as they grow.", "Evidence Tracking: Identifying archetypes through character actions, dialogue, choices, and motivations.", "Author's Craft: How authors subvert or flip traditional archetypes to surprise the audience."], "callout": "Critical Lens: Ask yourself: 'What dynamic role does this character play in pushing the story forward?'", "icon": "🔍", "visual_caption": "Archetype & Character Complexity"}, {"title": "6. Hands-On Archetype Mapping Workshop", "standard": "MN 8.1.3.3", "bullets": ["Step 1: Open your Character Archetypes Mapping Organizer.", "Step 2: Select three characters from our class text or your independent reading book.", "Step 3: Label each character's primary archetype and cite two supporting pieces of textual evidence.", "Step 4: Draft a thesis statement explaining how these archetypes interact to drive the main plot conflict."], "callout": "Workshop Goal: Prove archetype labels using specific character actions, dialogue, and narrative consequences.", "icon": "📝", "visual_caption": "Evidence Collection & Analysis Workflow"}], "resources": [{"title": "Character Archetypes Mapping Organizer", "description": "Comprehensive, self-made reference sheet detailing common character archetypes, traits, and examples.", "file": "Eng8_Character_Archetypes_Guide.pdf"}], "form": [{"label": "Student Name", "type": "short_text", "required": true}, {"label": "Date", "type": "date", "required": true}, {"label": "Archetype Analysis Prompt: Identify two characters from different stories that share the same archetype. Cite evidence showing how their roles, choices, or motivations make them similar.", "type": "quote_citation", "required": true}, {"label": "Self-Assessment: Identifying Character Archetypes", "type": "rating_scale", "options": ["1 - Needs Support (Struggling to identify archetypes or differentiate between characters)", "2 - Developing (Can identify basic archetypes like Hero and Villain, but struggling with supporting roles)", "3 - Competent (Successfully identifies and labels multiple archetypes using text evidence)", "4 - Expert (Analyzes how complex characters blend archetypes and drive thematic conflict)"], "required": true}, {"label": "Student Completion Pledge", "type": "checkbox_group", "options": ["I confirm I completed the archetype graphic organizer and submitted my text-based reflection."], "required": true}]}));
-</script>
-<script>
-  // JSON data placeholder injected by build.py
-  const LESSON_DATA = {{lesson_json}};
-  initLesson(LESSON_DATA);
-<script>
+
 window.addEventListener('DOMContentLoaded', () => {
   initLesson({
     "course_title": "English 8",
     "unit_title": "Unit 1: Narrative Structure & Character Patterns",
     "day_title": "Day 3: Character Archetypes Explored",
     "bellringers": [
-      "Think of your favorite movie or book. What role does the main character's guide or closest friend play?",
-      "Compare Katniss Everdeen, Harry Potter, and Percy Jackson. What common traits do these main characters share?"
+      "Think of your favorite movie or book. What role does the main character's guide or closest friend play? How are they similar to guides in other stories?",
+      "Compare Katniss Everdeen, Harry Potter, and Percy Jackson. What common traits, motivations, or challenges do these main characters share?",
+      "Define 'archetype' in your own words. Why do authors across different cultures and eras reuse similar character patterns?",
+      "Ethics & Characterization Check: Can a character fit a classic archetype while still feeling unique and complex, or do archetypes make characters predictable?"
     ],
-    "slides": [ /* slide data */ ],
+    "slides": [
+      {"title": "1. Lesson Overview & Universal Patterns", "standard": "MN 8.1.3.3", "bullets": ["Primary Focus: Noticing similarities between characters across many stories, eras, and cultures.", "Core Objective: Identify, label, and analyze different types of character archetypes in literature.", "Target Skill: Categorizing characters based on their core motivations, choices, and narrative roles.", "Textual Application: Connecting universal archetypes to our class anchor text and media examples."], "callout": "Key Concept: Archetypes are universal blueprints—recurring character types that readers instantly recognize across different stories.", "icon": "🎭", "visual_caption": "Universal Character Archetypes Framework"},
+      {"title": "2. Heroic & Protective Archetypes", "standard": "MN 8.1.6.6", "bullets": ["The Hero / Protagonist: Called to adventure, faces trials, and makes sacrifices for the greater good.", "The Caregiver / Protector: Driven by compassion and loyalty to nurture and protect others from harm.", "The Everyday Hero: An ordinary person thrust into extraordinary circumstances who rises to the challenge.", "Motivating Force: These archetypes drive the core moral direction and central conflict of the plot."], "callout": "Heroic Focus: A hero is not defined by perfection, but by their willingness to overcome flaws to do what is right.", "icon": "🛡️", "visual_caption": "Heroic & Protective Character Blueprint"},
+      {"title": "3. Guidance & Support Archetypes", "standard": "MN 8.1.3.3", "bullets": ["The Mentor: The wise teacher or guide who provides essential tools, training, or advice (e.g., Haymitch, Dumbledore).", "The Loyal Sidekick: The steadfast companion who offers support, contrast, and moral grounding.", "The Herald: The character or force that delivers the message signaling the start of the hero's journey.", "Narrative Function: Support archetypes challenge and prepare the protagonist to face obstacles."], "callout": "Guidance Rule: A true mentor never fights the battle for the hero—they give the hero what they need to face it themselves.", "icon": "🦉", "visual_caption": "Support & Guidance Network Diagram"},
+      {"title": "4. Opposition & Disruption Archetypes", "standard": "MN 8.1.3.3", "bullets": ["The Shadow / Villain: The primary opposing force representing the hero's main obstacle or darker potential.", "The Trickster: Bends rules, provides humor, and creates chaos to challenge the status quo.", "The Threshold Guardian: Tests the hero's courage and resolve before they enter a new world or challenge.", "Conflict Generation: Opposing archetypes reveal the hero's true character under pressure."], "callout": "Conflict Driver: A powerful Shadow reflects the hero's greatest internal fear or insecurity.", "icon": "🃏", "visual_caption": "Opposition & Dynamic Conflict Roles"},
+      {"title": "5. Analyzing Archetypes vs. Stereotypes", "standard": "MN 8.1.6.6", "bullets": ["Remember, different cultures bring different archetypes.", "Archetype vs. Stereotype: Archetypes are rich structural foundations; stereotypes are oversimplified cliches.", "Blended Archetypes: Complex characters often shift or combine multiple archetypes as they grow.", "Evidence Tracking: Identifying archetypes through character actions, dialogue, choices, and motivations.", "Author's Craft: How authors subvert or flip traditional archetypes to surprise the audience."], "callout": "Critical Lens: Ask yourself: 'What dynamic role does this character play in pushing the story forward?'", "icon": "🔍", "visual_caption": "Archetype & Character Complexity"},
+      {"title": "6. Hands-On Archetype Mapping Workshop", "standard": "MN 8.1.3.3", "bullets": ["Step 1: Open your Character Archetypes Mapping Organizer.", "Step 2: Select three characters from our class text or your independent reading book.", "Step 3: Label each character's primary archetype and cite two supporting pieces of textual evidence.", "Step 4: Draft a thesis statement explaining how these archetypes interact to drive the main plot conflict."], "callout": "Workshop Goal: Prove archetype labels using specific character actions, dialogue, and narrative consequences.", "icon": "📝", "visual_caption": "Evidence Collection & Analysis Workflow"}
+    ],
     "resources": [
-      {
-        "title": "Character Archetypes Mapping Organizer",
-        "description": "Comprehensive, self-made reference sheet detailing common character archetypes, traits, and examples.",
-        "file": "Eng8_Character_Archetypes_Guide.pdf"
-      }
+      {"title": "Character Archetypes Mapping Organizer", "description": "Comprehensive, self-made reference sheet detailing common character archetypes, traits, and examples.", "file": "Eng8_Character_Archetypes_Guide.pdf"}
     ],
-    "form": [ /* form data */ ]
+    "form": [
+      {"label": "Student Name", "type": "short_text", "required": true},
+      {"label": "Date", "type": "date", "required": true},
+      {"label": "Archetype Analysis Prompt: Identify two characters from different stories that share the same archetype. Cite evidence showing how their roles, choices, or motivations make them similar.", "type": "quote_citation", "required": true},
+      {"label": "Self-Assessment: Identifying Character Archetypes", "type": "rating_scale", "options": ["1 - Needs Support (Struggling to identify archetypes or differentiate between characters)", "2 - Developing (Can identify basic archetypes like Hero and Villain, but struggling with supporting roles)", "3 - Competent (Successfully identifies and labels multiple archetypes using text evidence)", "4 - Expert (Analyzes how complex characters blend archetypes and drive thematic conflict)"], "required": true},
+      {"label": "Student Completion Pledge", "type": "checkbox_group", "options": ["I confirm I completed the archetype graphic organizer and submitted my text-based reflection."], "required": true}
+    ]
   });
 });
 </script>
-</body>
-</html>
 </body>
 </html>
